@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Platform } from 'ionic-angular';
+import { GoogleMaps, GoogleMap, GoogleMapsEvent } from '@ionic-native/google-maps';
 
 /**
  * Generated class for the MapPage page.
@@ -12,14 +13,23 @@ import { NavController, NavParams } from 'ionic-angular';
 @Component({
   selector: 'page-map',
   templateUrl: 'map.html',
+  providers: [GoogleMaps]
 })
 export class MapPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  public map: GoogleMap;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public googleMaps: GoogleMaps, private platform: Platform) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MapPage');
+    this.platform.ready().then( () => {
+      //this.googleMaps.isAvailable().then(()=>{
+        let element: HTMLElement = document.getElementById('map');
+        this.map = this.googleMaps.create(element);
+      //});      
+    });
   }
 
 }
