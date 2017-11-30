@@ -19,25 +19,22 @@ export class MapPage {
 
   public map: GoogleMap;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public googleMaps: GoogleMaps, private platform: Platform) {
-  }
+  constructor(public navCtrl: NavController, public navParams: NavParams, public googleMaps: GoogleMaps, private platform: Platform) { }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MapPage');
+    console.log('ionViewDidLoad MapPage')
+
     this.platform.ready().then( () => {
-      //this.googleMaps.isAvailable().then(()=>{
+      this.googleMaps.isAvailable().then(()=>{
         let element: HTMLElement = document.getElementById('map');
         this.map = this.googleMaps.create(element);
         this.map.one(GoogleMapsEvent.MAP_READY).then((data:any) => {
           // Center map
           let myPosition: LatLng = new LatLng(41.390295, 2.154007);
-          this.map.animateCamera({target: myPosition, zoom: 10});
-
-          
-
-        });
-      //});      
-    });
+          this.map.animateCamera({target: myPosition, zoom: 10});          
+        })
+      }).catch( () => alert("GoogleMap is not available"));
+    })  
   }
 
 }
